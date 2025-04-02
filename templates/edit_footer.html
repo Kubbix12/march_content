@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pl" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Multi-Fach - kompleksowa obsługa, dobre ceny i bezpieczny najem">
+    <title>Multi-Fach - wypożyczalnia narzędzi i sklep budowlany</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+</head>
+
+<body>
+    <header>
+        <div id="header_content">
+            {% if session.get('user') %}
+            <a href="{{ url_for('admin_panel') }}" class="button_session">MF - Admin</a>
+            <a href="{{ url_for('logout') }}" id="logout_button">Wyloguj</a>
+            {% else %}
+            <a href="{{ url_for('index') }}" class="button">Multi - Fach</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <nav>
+        <div id="inner_nav">
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Strona Główna</a></li>
+                <li><a href="{{ url_for('wypozyczalnia') }}">Wypożyczalnia</a></li>
+                <li><a href="{{ url_for('uslugi') }}">Usługi</a></li>
+                <li><a href="{{ url_for('sklep') }}">Sklep</a></li>
+                <li><a href="{{ url_for('kontakt') }}">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="inner_body">
+        <div id="inner_inner_body">
+            <main>
+                <div id="main_content">
+                    <article>
+                        <div id="inner_article">
+                            <div id="admin_panel_container">
+                                <div id="admin_panel_header"><a href="{{ url_for('admin_panel') }}">Panel
+                                        Administracyjny</a></div>
+                                <ul class="admin_menu">
+                                    <li><a href="{{ url_for('edit_announcements') }}">Edycja ogłoszeń</a></li>
+                                    <li><a href="{{ url_for('edit_main_side') }}">Edycja strony głównej</a></li>
+                                    <li><a href="{{ url_for('edit_info') }}">Edycja informacji</a></li>
+                                    <li><a href="{{ url_for('edit_footer') }}">Edycja stopki</a></li>
+                                    <li><a href="{{ url_for('add_announcements') }}">Dodaj ogłoszenie</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="inner_inner_article">
+                            <form action="/update_footer" method="POST" class="contact-form">
+                                <h2 class="form-title">Edycja treści stopki</h2>
+                                <label for="footer-content" class="form-label">Treść stopki:</label>
+                                <textarea id="footer-content" name="footer_content" class="form-input" rows="4"
+                                    required>{{ footer_content }}</textarea><br>
+
+                                <button type="submit" class="form-button">Zapisz zmiany</button>
+                            </form>
+                        </div>
+                    </article>
+                    <section>
+                        <div id="inner_section">
+                            <address>
+                                <a id="industry_name" href="{{ url_for('index') }}">Multi-Fach</a><br>
+                                <span id="place">Ulica,<br>kod pocztowy</span><br>
+                                <a id="tel" href="tel:+48123456789">123 456 789</a><br>
+                                <a id="mail"
+                                    href="mailto:mail@gmail.pl?subject=Zapytanie ze strony">mail</a>
+                            </address><br>
+                            <span id="industry_type">
+                                Wypożyczalnia narzędzi<br>
+                                Sklep budowolany
+                            </span><br>
+                            <span id="open_hours_title">
+                                Godziny otwarcia:<br>
+                            </span>
+                            <span id="open_hours">
+                                Pon. - Pt.: {{ pon_pt }}<br>
+                                Sobota: {{ so }}<br>
+                                Niedziela: Zamknięte
+                            </span>
+                        </div>
+                        <div id="second_inner_section">
+                        </div>
+                        <a id="up">^</a>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div id="inner_footer">
+            <div id="footer_content">{{ footer_content }}</div>
+            <p id="copy">&copy; Multi-Fach 2025 Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

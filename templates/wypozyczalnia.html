@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Multi-Fach - kompleksowa obsługa, dobre ceny i bezpieczny najem">
+    <title>Multi-Fach - wypożyczalnia narzędzi i sklep budowlany</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
+</head>
+
+<body>
+    <header>
+        <div id="header_content">
+            {% if session.get('user') %}
+            <a href="{{ url_for('admin_panel') }}" class="button_session">MF - Admin</a>
+            <a href="{{ url_for('logout') }}" id="logout_button">Wyloguj</a>
+            {% else %}
+            <a href="{{ url_for('index') }}" class="button">Multi - Fach</a>
+            {% endif %}
+        </div>
+    </header>
+    <nav>
+        <div id="inner_nav">
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Strona Główna</a></li>
+                <li><a href="{{ url_for('wypozyczalnia') }}">Wypożyczalnia</a></li>
+                <li><a href="{{ url_for('uslugi') }}">Usługi</a></li>
+                <li><a href="{{ url_for('sklep') }}">Sklep</a></li>
+                <li><a href="{{ url_for('kontakt') }}">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="inner_body">
+        <div id="inner_inner_body">
+            <main>
+                <div id="main_content">
+                    <article>
+                        <div id="inner_article">
+                            <div class="header_container">
+                                <a href="{{ url_for('wypozyczalnia') }}" class="main_header">Cały asortyment</a>
+                                <!--Czyści filtry-->
+                                <a id="mobile_section">Więcej</a>
+                                <div id="filter_menu" class="filter_menu">
+                                    <form id="filter_form" method="get" action="{{ url_for('wypozyczalnia') }}">
+                                        <label for="category">Kategoria:</label>
+                                        <select name="category" id="category" class="form-input">
+                                            <option value="">Wszystkie</option>
+                                        </select>
+
+                                        <label for="price">Cena:</label>
+                                        <select name="price" id="price" class="form-input">
+                                            <option value="">Wszystkie</option>
+                                            <option value="price_min">Malejąco</option>
+                                            <option value="price_max">Rosnąco</option>
+                                        </select>
+
+                                        <label for="availability">Dostępność:</label>
+                                        <select name="availability" id="availability" class="form-input">
+                                            <option value="">Wszystkie</option>
+                                            <option value="available">Dostępne</option>
+                                            <option value="not_available">Niedostępne</option>
+                                            <option value="to_ask">Do uzgodnienia</option>
+                                            <option value="other">Inne</option>
+                                        </select>
+
+                                        <button type="submit" class="form-button">Filtruj</button>
+                                    </form>
+
+                                </div>
+
+                                <!--Wybór filtrów-->
+
+                            </div>
+                        </div>
+
+                        <div id="announcements_renthings">
+                            <!-- Tutaj JavaScript wstawia ogłoszenia -->
+                            <!-- <a class="announcement" href="/details/123/Nazwa">
+                                <div class="ad-container">
+                                    <div class="ad-left">
+                                        <img src="../static/img/multi-fach_sklep.jpg" alt="Nazwa" class="ad-image">
+                                    </div>
+                                    <div class="ad-center">
+                                        <p class="item_name">Zagęszczarka 500kg</p>
+                                        <p class="producent">Atlas Copco</p>
+                                        <p class="desc"><i>Idealna do głębokiego zagęszczania</i></p>
+                                        <ul class="ad-params">
+                                            <li class="param">500kg</li>
+                                            <li class="param">Diesel</li>
+                                            <li class="param">Z napędem</li>
+                                        </ul>
+                                    </div>
+                                    <div class="ad-right">
+                                        <p class="price_day">200zł/doba</p>
+                                        <p class="price_hour">60zł/godzina</p>
+                                        <p class="hour_to_day">3 godziny = cena za dobę</p>
+                                        <p class="deposit"><b>Kaucja:</b> <b class="deposit_price">500zł</b></p>
+                                        <div class="avialable_container">Aktualnie: <b class="available">Dostępny</b>
+                                        </div>
+                                    </div>
+                                    <div class="rent_info">
+                                        <b class="strong_red">Pamiętaj</b>, że do podpisania <b class="strong_red">umowy</b> najmu będzie potrzebny <b
+                                            class="strong_red">dowód osobisty</b> lub
+                                        inny
+                                        dokument potwierdzający tożsamość oraz <b class="strong_red">kaucja</b>.
+                                    </div>
+                                </div>
+                            </a> -->
+                        </div>
+                        <div id="taget_position"></div>
+                    </article>
+                    <section>
+                        <div id="inner_section">
+                            <address>
+                                <a id="industry_name" href="{{ url_for('index') }}">Multi-Fach</a><br>
+                                <span id="place">Ulica,<br>kod pocztowy</span><br>
+                                <a id="tel" href="tel:+48123456789">123 456 789</a><br>
+                                <a id="mail"
+                                    href="mailto:mail@gmail.pl?subject=Zapytanie ze strony">mail</a>
+                            </address><br>
+                            <span id="industry_type">
+                                Wypożyczalnia narzędzi<br>
+                                Sklep budowolany
+                            </span><br>
+                            <span id="open_hours_title">
+                                Godziny otwarcia:<br>
+                            </span>
+                            <span id="open_hours">
+                                Pon. - Pt.: {{ pon_pt }}<br>
+                                Sobota: {{ so }}<br>
+                                Niedziela: Zamknięte
+                            </span>
+                        </div>
+                        <div id="second_inner_section">
+
+                        </div>
+                        <a id="up">^</a>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div id="inner_footer">
+            <div id="footer_content">{{ footer_content }}</div>
+            <p id="copy">&copy; Multi-Fach 2025 Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+
+
+
+</html>

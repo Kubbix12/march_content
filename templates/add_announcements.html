@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pl" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Multi-Fach - kompleksowa obsługa, dobre ceny i bezpieczny najem">
+    <title>Multi-Fach - wypożyczalnia narzędzi i sklep budowlany</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+</head>
+
+<body>
+    <header>
+        <div id="header_content">
+            {% if session.get('user') %}
+            <a href="{{ url_for('admin_panel') }}" class="button_session">MF - Admin</a>
+            <a href="{{ url_for('logout') }}" id="logout_button">Wyloguj</a>
+            {% else %}
+            <a href="{{ url_for('index') }}" class="button">Multi - Fach</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <nav>
+        <div id="inner_nav">
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Strona Główna</a></li>
+                <li><a href="{{ url_for('wypozyczalnia') }}">Wypożyczalnia</a></li>
+                <li><a href="{{ url_for('uslugi') }}">Usługi</a></li>
+                <li><a href="{{ url_for('sklep') }}">Sklep</a></li>
+                <li><a href="{{ url_for('kontakt') }}">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="inner_body">
+        <div id="inner_inner_body">
+            <main>
+                <div id="main_content">
+                    <article>
+                        <div id="inner_article">
+                            <div id="admin_panel_container">
+                                <div id="admin_panel_header"><a href="{{ url_for('admin_panel') }}">Panel
+                                        Administracyjny</a></div>
+                                <ul class="admin_menu">
+                                    <li><a href="{{ url_for('edit_announcements') }}">Edycja ogłoszeń</a></li>
+                                    <li><a href="{{ url_for('edit_main_side') }}">Edycja strony głównej</a></li>
+                                    <li><a href="{{ url_for('edit_info') }}">Edycja informacji</a></li>
+                                    <li><a href="{{ url_for('edit_footer') }}">Edycja stopki</a></li>
+                                    <li><a href="{{ url_for('add_announcements') }}">Dodaj ogłoszenie</a></li>
+                                </ul>
+                            </div>
+
+                            <div id="admin_panel">
+                                <h2 class="panel-title">Dodaj nowe ogłoszenie</h2>
+
+                                <form id="listingForm" class="add-announcement-form" enctype="multipart/form-data"
+                                    method="POST" autocomplete="off">
+
+                                    <div class="form-group">
+                                        <label for="type">Nazwa kolekcji:</label>
+                                        <select name="type" id="type" class="form-input">
+                                            <option value="">Wybierz</option>
+                                            <option value="products">Sklep</option>
+                                            <option value="services">Usługi</option>
+                                            <option value="renthings">Wypożyczalnia</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="category">ID Dokumentu (opcjonalnie):</label>
+                                        <select name="category" id="category" class="form-input">
+                                            <option value="">Wszystkie</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Dynamiczne pole dla nowego ID Dokumentu -->
+                                    <div class="form-group" id="newDocField" style="display: none;">
+                                        <label for="new_doc_name">Nazwa nowego dokumentu:</label>
+                                        <input type="text" name="new_doc_name" id="new_doc_name" class="form-input"
+                                            placeholder="Podaj nazwę nowego dokumentu">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="field_name">Nazwa pola w bazie danych:</label>
+                                        <input type="text" name="field_name" id="field_name" class="form-input" required
+                                            placeholder="Wpisz nazwę pola">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="item_name">Nazwa przedmiotu:</label>
+                                        <input type="text" name="item_name" id="item_name" class="form-input" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="desc">Opis:</label>
+                                        <textarea name="desc" id="desc" class="form-textarea" required></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="deposit">Kaucja:</label>
+                                        <input type="number" name="deposit" id="deposit" class="form-input" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="min_hours">Minimalna liczba godzin:</label>
+                                        <input type="number" name="min_hours" id="min_hours" class="form-input"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="hour_to_day">Ile godzin to cena jak doba:</label>
+                                        <input type="number" name="hour_to_day" id="hour_to_day" class="form-input"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="available">Dostępność:</label>
+                                        <select name="available" id="available" class="form-input" required>
+                                            <option value="1">Dostępny</option>
+                                            <option value="2">Do uzgodnienia</option>
+                                            <option value="0">Niedostępny</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="transport">Transport:</label>
+                                        <select name="transport" id="transport" class="form-input" required>
+                                            <option value="1">Dostępny</option>
+                                            <option value="2">Do uzgodnienia</option>
+                                            <option value="0">Niedostępny</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="price_hour">Cena za godzinę:</label>
+                                        <input type="number" name="price_hour" id="price_hour" class="form-input"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="price_day">Cena za dzień:</label>
+                                        <input type="number" name="price_day" id="price_day" class="form-input"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="producent">Producent:</label>
+                                        <input type="text" name="producent" id="producent" class="form-input" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="hidden">Widoczność ogłoszenia:</label>
+                                        <select name="hidden" id="hidden" class="form-input" required>
+                                            <option value="0">Widoczne</option>
+                                            <option value="1">Ukryte</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="parameters">Parametry (każdy w nowej linii, format: nazwa:
+                                            wartość):</label>
+                                        <textarea name="parameters" id="parameters" class="form-textarea" rows="5"
+                                            required></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="piece">Liczba sztuk:</label>
+                                        <input type="number" name="piece" id="piece" class="form-input" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="image">Zdjęcie:</label>
+                                        <input type="file" name="image" id="image" accept="image/*"
+                                            class="form-file-input">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="form-button">Dodaj ogłoszenie</button>
+                                    </div>
+                                </form>
+                                <a id="back-link" href="{{ url_for('edit_announcements') }}" class="back-link">Powrót do
+                                    ogłoszeń</a>
+                            </div>
+                        </div>
+
+
+                    </article>
+                    <section>
+                        <div id="inner_section">
+                            <address>
+                                <a id="industry_name" href="{{ url_for('index') }}">Multi-Fach</a><br>
+                                <span id="place">Ulica,<br>kod pocztowy</span><br>
+                                <a id="tel" href="tel:+48123456789">123 456 789</a><br>
+                                <a id="mail"
+                                    href="mailto:mail@gmail.pl?subject=Zapytanie ze strony">mail</a>
+                            </address><br>
+                            <span id="industry_type">
+                                Wypożyczalnia narzędzi<br>
+                                Sklep budowolany
+                            </span><br>
+                            <span id="open_hours_title">
+                                Godziny otwarcia:<br>
+                            </span>
+                            <span id="open_hours">
+                                Pon. - Pt.: {{ pon_pt }}<br>
+                                Sobota: {{ so }}<br>
+                                Niedziela: Zamknięte
+                            </span>
+                        </div>
+                        <div id="second_inner_section">
+                        </div>
+                        <a id="up">^</a>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div id="inner_footer">
+            <div id="footer_content">{{ footer_content }}</div>
+            <p id="copy">&copy; Multi-Fach 2025 Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

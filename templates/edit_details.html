@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pl" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Multi-Fach - kompleksowa obsługa, dobre ceny i bezpieczny najem">
+    <title>Multi-Fach - Szczegóły ogłoszenia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+</head>
+
+<body>
+    <!-- Nagłówek -->
+    <header>
+        <div id="header_content">
+            {% if session.get('user') %}
+            <a href="{{ url_for('admin_panel') }}" class="button_session">MF - Admin</a>
+            <a href="{{ url_for('logout') }}" id="logout_button">Wyloguj</a>
+            {% else %}
+            <a href="{{ url_for('index') }}" class="button">Multi-Fach</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Nawigacja -->
+    <nav>
+        <div id="inner_nav">
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Strona Główna</a></li>
+                <li><a href="{{ url_for('wypozyczalnia') }}">Wypożyczalnia</a></li>
+                <li><a href="{{ url_for('uslugi') }}">Usługi</a></li>
+                <li><a href="{{ url_for('sklep') }}">Sklep</a></li>
+                <li><a href="{{ url_for('kontakt') }}">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <div id="inner_body">
+        <div id="inner_inner_body">
+            <main>
+                <div id="main_content">
+                    <article>
+                        <div id="inner_article">
+                            <div id="admin_panel_container">
+                                <div id="admin_panel_header"><a href="{{ url_for('admin_panel') }}">Panel
+                                        Administracyjny</a></div>
+                                <ul class="admin_menu">
+                                    <li><a href="{{ url_for('edit_announcements') }}">Edycja ogłoszeń</a></li>
+                                    <li><a href="{{ url_for('edit_main_side') }}">Edycja strony głównej</a></li>
+                                    <li><a href="{{ url_for('edit_info') }}">Edycja informacji</a></li>
+                                    <li><a href="{{ url_for('edit_footer') }}">Edycja stopki</a></li>
+                                    <li><a href="{{ url_for('add_announcements') }}">Dodaj ogłoszenie</a></li>
+                                </ul>
+                            </div>
+                            <div id="admin_panel">
+                                <h1 class="panel-title">Edycja ogłoszenia</h1>
+                                <form
+                                    action="{{ url_for('update_details', collection=collection, doc_id=doc_id, item_name=item_name) }}"
+                                    method="POST" enctype="multipart/form-data" id="edit-announcement-form"
+                                    class="edit-announcement-form" autocomplete="off">
+
+                                    <!-- Kolekcja -->
+                                    <div class="form-group">
+                                        <label for="new_collection">Nowa kolekcja:</label>
+                                        <select name="new_collection" id="new_collection" class="form-input">
+                                            <option value="{{ collection }}">
+                                                Obecna:
+                                                {% if collection == "products" %}Sklep
+                                                {% elif collection == "services" %}Usługi
+                                                {% elif collection == "renthings" %}Wypożyczalnia
+                                                {% else %}{{ collection }}{% endif %}
+                                            </option>
+                                            <option value="products">Sklep</option>
+                                            <option value="services">Usługi</option>
+                                            <option value="renthings">Wypożyczalnia</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- ID Dokumentu -->
+                                    <div class="form-group">
+                                        <label for="new_doc_id">Nowy ID Dokumentu:</label>
+                                        <select name="new_doc_id" id="new_doc_id" class="form-input">
+                                            <option value="{{ doc_id }}" selected>Obecny: {{ doc_id }}</option>
+                                            {% for doc in doc_list %}
+                                            <option value="{{ doc }}" {% if doc==doc_id %}selected{% endif %}>{{ doc }}
+                                            </option>
+                                            {% endfor %}
+                                            <option value="other">Inna</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Dynamiczne pole dla nowego ID Dokumentu -->
+                                    <div class="form-group" id="newDocField" style="display: none;">
+                                        <label for="new_doc_name">Nazwa nowego dokumentu:</label>
+                                        <input type="text" name="new_doc_name" id="new_doc_name" class="form-input"
+                                            placeholder="Podaj nazwę nowego dokumentu">
+                                    </div>
+
+                                    <!-- Nazwa pola -->
+                                    <div class="form-group">
+                                        <label for="new_field_name">Nowa nazwa pola:</label>
+                                        <input type="text" name="new_field_name" id="new_field_name" class="form-input"
+                                            value="{{ item_name }}" required>
+                                    </div>
+
+                                    <!-- Nazwa przedmiotu -->
+                                    <div class="form-group">
+                                        <label for="item_name">Nazwa przedmiotu:</label>
+                                        <input type="text" name="item_name" id="item_name" class="form-input"
+                                            value="{{ item_name if item_name else '' }}" required>
+                                    </div>
+
+                                    <!-- Opis -->
+                                    <div class="form-group">
+                                        <label for="desc">Opis:</label>
+                                        <textarea name="desc" id="desc" class="form-textarea"
+                                            required>{{ desc }}</textarea>
+                                    </div>
+
+                                    <!-- Kaucja -->
+                                    <div class="form-group">
+                                        <label for="deposit">Kaucja:</label>
+                                        <input type="number" name="deposit" id="deposit" class="form-input"
+                                            value="{{ deposit }}" required>
+                                    </div>
+
+                                    <!-- Minimalna liczba godzin -->
+                                    <div class="form-group">
+                                        <label for="min_hours">Minimalna liczba godzin:</label>
+                                        <input type="number" name="min_hours" id="min_hours" class="form-input"
+                                            value="{{ min_hours }}" required>
+                                    </div>
+
+                                    <!-- Ile godzin to doba -->
+                                    <div class="form-group">
+                                        <label for="hour_to_day">Ile godzin to cena jak doba:</label>
+                                        <input type="number" name="hour_to_day" id="hour_to_day" class="form-input"
+                                            value="{{ hour_to_day }}" required>
+                                    </div>
+
+                                    <!-- Dostępność -->
+                                    <div class="form-group">
+                                        <label for="available">Dostępność:</label>
+                                        <select name="available" id="available" class="form-input" required>
+                                            <option value="1" {% if available=="1" %}selected{% endif %}>Dostępny
+                                            </option>
+                                            <option value="2" {% if available=="2" %}selected{% endif %}>Do uzgodnienia
+                                            </option>
+                                            <option value="0" {% if available=="0" %}selected{% endif %}>Niedostępny
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Transport -->
+                                    <div class="form-group">
+                                        <label for="transport">Transport:</label>
+                                        <select name="transport" id="transport" class="form-input" required>
+                                            <option value="1" {% if transport=="1" %}selected{% endif %}>Dostępny
+                                            </option>
+                                            <option value="2" {% if transport=="2" %}selected{% endif %}>Do uzgodnienia
+                                            </option>
+                                            <option value="0" {% if transport=="0" %}selected{% endif %}>Niedostępny
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Cena za godzinę -->
+                                    <div class="form-group">
+                                        <label for="price_hour">Cena za godzinę:</label>
+                                        <input type="number" name="price_hour" id="price_hour" class="form-input"
+                                            value="{{ price_hour }}" required>
+                                    </div>
+
+                                    <!-- Cena za dzień -->
+                                    <div class="form-group">
+                                        <label for="price_day">Cena za dzień:</label>
+                                        <input type="number" name="price_day" id="price_day" class="form-input"
+                                            value="{{ price_day }}" required>
+                                    </div>
+
+                                    <!-- Producent -->
+                                    <div class="form-group">
+                                        <label for="producent">Producent:</label>
+                                        <input type="text" name="producent" id="producent" class="form-input"
+                                            value="{{ producent }}" required>
+                                    </div>
+
+                                    <!-- Widoczność -->
+                                    <div class="form-group">
+                                        <label for="hidden">Widoczność ogłoszenia:</label>
+                                        <select name="hidden" id="hidden" class="form-input" required>
+                                            <option value="0" {% if hidden=="0" %}selected{% endif %}>Widoczne</option>
+                                            <option value="1" {% if hidden=="1" %}selected{% endif %}>Ukryte</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Parametry -->
+                                    <div class="form-group">
+                                        <label for="parameters">Parametry (każdy w nowej linii, format: nazwa:
+                                            wartość):</label>
+                                        <textarea name="parameters" id="parameters" class="form-textarea" rows="5"
+                                            required>{% for key, value in parameters.items() %}{{ key }}: {{ value }}
+                                    {% endfor %}</textarea>
+                                    </div>
+
+
+
+                                    <!-- Liczba sztuk -->
+                                    <div class="form-group">
+                                        <label for="piece">Liczba sztuk:</label>
+                                        <input type="number" name="piece" id="piece" class="form-input"
+                                            value="{{ piece }}" required>
+                                    </div>
+
+                                    <!-- Zdjęcie -->
+                                    <div class="form-group">
+                                        <label for="image">Zdjęcie:</label>
+
+                                        <!-- Podgląd obecnego zdjęcia -->
+                                        <div>
+                                            <img id="imagePreview" src="{{ image }}" alt="Podgląd zdjęcia"
+                                                style="max-width: 200px; display: block; margin-bottom: 10px;">
+                                        </div>
+
+                                        <!-- Pole do wgrania nowego zdjęcia -->
+                                        <input type="file" name="image" id="image" accept="image/*"
+                                            class="form-file-input">
+                                    </div>
+                                    <!-- Przycisk zapisania zmian -->
+                                    <div class="form-group">
+                                        <button type="submit" class="form-button">Zapisz zmiany</button>
+                                    </div>
+                                </form>
+
+                                <form
+                                    action="{{ url_for('delete_announcement', collection=collection, doc_id=doc_id, item_name=item_name) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('Czy na pewno chcesz usunąć to ogłoszenie?');">
+                                    <button type="submit" class="form-button delete-btn">Usuń ogłoszenie</button>
+                                </form>
+
+                                <a id="back-link" href="{{ url_for('edit_announcements') }}" class="back-link">Powrót do
+                                    ogłoszeń</a>
+                            </div>
+
+                        </div>
+                    </article>
+
+                    <!-- Sekcja kontaktowa / info -->
+                    <section>
+                        <div id="inner_section">
+                            <address>
+                                <a id="industry_name" href="{{ url_for('index') }}">Multi-Fach</a><br>
+                                <span id="place">Ulica,<br>kod pocztowy</span><br>
+                                <a id="tel" href="tel:+48123456789">123 456 789</a><br>
+                                <a id="mail"
+                                    href="mailto:mail@gmail.pl?subject=Zapytanie ze strony">mail</a>
+                            </address><br>
+                            <br>
+                            <span id="industry_type">
+                                Wypożyczalnia narzędzi<br>
+                                Sklep budowlany
+                            </span>
+                            <br>
+                            <span id="open_hours_title">
+                                Godziny otwarcia:<br>
+                            </span>
+                            <span id="open_hours">
+                                Pon. - Pt.: {{ pon_pt }}<br>
+                                Sobota: {{ so }}<br>
+                                Niedziela: Zamknięte
+                            </span>
+                        </div>
+                        <a id="up" href="#">^</a>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Stopka -->
+    <footer>
+        <div id="inner_footer">
+            <div id="footer_content">{{ footer_content }}</div>
+            <p id="copy">&copy; Multi-Fach 2025 Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

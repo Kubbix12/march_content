@@ -1,0 +1,2028 @@
+/*Do projektu dodać:
+1.tryb nocny CSS
+2.filtrowanie po wpisywaniu w okienko
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+#inner_body {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(200, 253, 255);
+}
+
+#inner_inner_body {
+    width: 1600px;
+    max-width: 1600px;
+    font-family: Arial, sans-serif;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    unicode-bidi: isolate;
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    background-color: #fdad4c;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    height: 4em;
+    display: flex;
+    justify-content: center;
+    z-index: 20;
+}
+
+#header_content {
+    max-width: 1600px;
+    width: 1600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 132, 0);
+}
+
+#header_content a {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 2.5em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+nav {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    background-color: #007BFF;
+    display: flex;
+    justify-content: center;
+}
+
+
+#inner_nav {
+    width: 1600px;
+    max-width: 1600px;
+    display: flex;
+}
+
+.nav-menu {
+    margin-top: 4em;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    list-style: none;
+    justify-content: center;
+}
+
+.nav-menu li {
+    display: flex;
+}
+
+.nav-menu a {
+    text-align: center;
+    width: 100%;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5em;
+    padding: 10px 15px;
+    transition: background-color 0.6s ease;
+}
+
+.nav-menu a:hover {
+    transition: background-color 0.6s ease;
+    cursor: pointer;
+    background-color: #0056b3;
+}
+
+/* Styl dla aktywnego linku */
+.nav-menu a.active {
+    background-color: gray;
+    color: white;
+}
+
+main {
+    margin: 1% 0%;
+}
+
+#main_content {
+    display: grid;
+    min-width: 100%;
+    min-height: 100vh;
+    gap: 1%;
+    grid-template-columns: 4.1fr 1fr;
+}
+
+article {
+    text-align: left;
+    border-radius: 3px;
+    background-color: #fffbf6;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#inner_article {
+    font-size: 1.2em;
+    padding: 1.5em;
+    border-radius: 3px;
+}
+
+.header_container {
+    margin-top: 0.8em;
+    width: 100%;
+    text-align: center;
+}
+
+.main_header {
+    margin-left: 7%;
+    border-radius: 50px;
+    padding: 0.8em 1.2em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.4s ease;
+    background: rgb(255, 132, 0);
+    font-size: 1.1em;
+}
+
+.main_header:hover {
+    transition: box-shadow 0.4s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#filter_form {
+    margin: 0;
+    padding: 0;
+}
+
+.filter_menu {
+    background: rgb(200, 253, 255);
+    padding: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 3.5%;
+}
+
+.filter_menu label,
+.filter_menu select,
+.filter_menu input,
+.filter_menu button {
+    cursor: pointer;
+}
+
+.filter_menu select,
+.filter_menu input {
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 120px;
+}
+
+.filter_menu button {
+    margin: 1% 0;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.filter_menu button:hover {
+    background-color: #0056b3;
+    transition: background-color 0.4s ease;
+}
+
+section {
+    width: 311px;
+    text-align: justify;
+    border-radius: 3px;
+    background-color: #fffbf6;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#inner_section {
+    z-index: 10;
+    border-radius: 3px;
+    max-width: 311px;
+    width: 311px;
+    padding: 1.2em;
+    position: fixed;
+    background-color: rgb(255, 132, 0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-family: none;
+    font-size: 1.2em;
+}
+
+#second_inner_section {
+    padding: 1.5em;
+}
+
+#industry_name {
+    font-size: 2em;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+#place {
+    font-size: 1.1em;
+    color: rgb(100, 100, 100);
+}
+
+#mail,
+#tel {
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.5em;
+    color: rgb(0, 0, 0);
+    font-style: italic;
+    border-bottom: 3px solid #007bff;
+    transition: all 0.4s ease;
+}
+
+#mail:hover,
+#tel:hover {
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.5em;
+    color: rgb(255, 255, 255);
+    font-style: italic;
+    border-bottom: 3px solid rgb(255, 238, 0);
+}
+
+#open_hours,
+#industry_type {
+    font-size: 1.2em;
+    color: rgb(100, 100, 100);
+}
+
+#open_hours_title {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: rgb(0, 0, 0);
+}
+
+#up {
+    opacity: 0.8;
+    z-index: 1000;
+    width: 80px;
+    height: 50px;
+    font-size: 2em;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 200px;
+    bottom: 4vh;
+    text-align: center;
+    position: fixed;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.4s ease;
+    background: linear-gradient(0deg, rgba(255, 173, 0, 1) 0%, rgb(200, 253, 255, 1) 100%);
+}
+
+#up::before {
+    content: "^";
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgb(200, 253, 255, 1) 0%, rgba(255, 173, 0, 1) 100%);
+    transition: opacity 0.4s ease;
+    border-radius: inherit;
+}
+
+#up:hover::before {
+    opacity: 0;
+}
+
+#up:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    max-height: auto;
+    background-color: #fdad4c;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#inner_footer {
+    max-width: 1600px;
+    width: 1600px;
+    background-color: rgb(255, 132, 0);
+}
+
+#footer_content {
+    padding: 10px;
+    margin: 1% 10% 0 10%;
+    border-radius: 3px;
+    background-color: #7d7d7d;
+}
+
+#copy {
+    padding: 20px;
+    font-size: 1em;
+}
+
+.announcement {
+    cursor: default;
+    display: flex;
+}
+
+.ad-container {
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #e8e8e8;
+    padding: 1.5em;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    height: 20%;
+    margin: 1em auto;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.4s ease;
+    color: black;
+}
+
+.ad-container:hover {
+    background-color: rgb(205, 205, 205);
+}
+
+.ad-container:hover .ad-image {
+    transition: opacity 0.4s ease;
+    opacity: 0.8;
+}
+
+.announcement:last-child {
+    margin-bottom: 1.5em;
+}
+
+.ad-left {
+    align-items: center;
+}
+
+.ad-image {
+    transition: opacity 0.4s ease;
+    height: 250px;
+    width: 250px;
+    border-radius: 8px;
+}
+
+.ad-center {
+    flex: 1;
+    margin: 0 2%;
+}
+
+.rent_info {
+    font-weight: bold;
+    margin-top: 1.5%;
+    width: 100%;
+}
+
+.item_name {
+    text-align: left;
+    font-size: 1.6em;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: rgb(255, 132, 0);
+}
+
+.producent {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.desc {
+    font-style: italic;
+    margin: 2% 0;
+    font-size: 1em;
+    color: rgb(0, 0, 0);
+    text-align: left;
+}
+
+.ad-params {
+    color: #555;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ad-params li {
+    font-size: 1.2em;
+    margin: 4px 0;
+}
+
+.ad-right {
+    text-align: right;
+    min-width: 150px;
+}
+
+.price_day {
+    font-size: 1.9em;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 2%;
+}
+
+.price_hour {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: rgb(100, 100, 100);
+    margin-bottom: 2%;
+}
+
+.hour_to_day {
+    margin-bottom: 2%;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.space,
+.deposit {
+    font-size: 1.5em;
+    color: #555;
+    margin-top: 40%;
+}
+
+.transport {
+    color: black;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.transport_container {
+    margin: 5% 0;
+}
+
+.space {
+    margin-top: 70%;
+}
+
+.deposit_price {
+    color: #000000;
+}
+
+.transport_price {
+    font-size: 1.5em;
+    color: #003cff;
+}
+
+.available {
+    color: green;
+    font-size: 1.5em;
+}
+
+.to_ask {
+    color: rgb(255, 132, 0);
+    font-size: 1.5em;
+}
+
+.no_available {
+    color: red;
+    font-size: 1.5em;
+}
+
+.avialable_container {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #555;
+}
+
+#available_word {
+    font-size: 1.2em;
+}
+
+.strong_red {
+    color: rgb(255, 65, 65);
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.service_min_hours {
+    margin-top: 8%;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.service_min {
+    font-size: 1.3em;
+    color: green;
+}
+
+.no_items {
+    margin: 5% 0;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.pagination-buttons {
+    text-align: center;
+    margin: 1.5% 0 3% 0;
+}
+
+.previous_page_button {
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #e8e8e8;
+    padding: 20px;
+    border-radius: 30px;
+    transition: color 0.4s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+
+}
+
+.next_page_button {
+    cursor: pointer;
+    font-weight: bold;
+    background-color: rgb(100, 250, 255);
+    padding: 20px;
+    border-radius: 30px;
+    transition: background-color 0.4s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.previous_page_button:hover {
+    background-color: rgb(205, 205, 205);
+    padding: 20px;
+    border-radius: 30px;
+    transition: background-color 0.4s ease;
+}
+
+.next_page_button:hover {
+    background-color: #007bff;
+    padding: 20px;
+    border-radius: 30px;
+    transition: background-color 0.4s ease;
+}
+
+#mobile_section {
+    opacity: 0;
+}
+
+#login_form {
+    margin-left: 35%;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+#login_form h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form_group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form_group label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #444;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form_group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 12px;
+    transition: all 0.4s ease;
+}
+
+.form_group input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.login_btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.login_btn:hover {
+    background: linear-gradient(135deg, #0056b3, #00408b);
+    transform: scale(1.05);
+}
+
+#header_content #logout_button {
+    font-size: 1em;
+}
+
+#header_content .button_session {
+    margin-left: 42%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 2.5em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    transition: all 0.4s ease;
+    font-style: italic;
+    border-bottom: 3px solid #007bff;
+}
+
+#header_content .button_session:hover {
+    margin-left: 42%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 2.5em;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    transform: scale(1.05);
+    border-bottom: 3px solid rgb(255, 238, 0);
+}
+
+#logout_button {
+    margin-left: 34%;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: 3px solid black !important;
+    background-color: red;
+    transition: all 0.4s ease;
+    display: inline-block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    font-family: Arial, sans-serif;
+}
+
+#logout_button:hover {
+    background-color: rgb(255, 238, 0);
+    color: rgb(125, 125, 125);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.price {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.avai {
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+
+#admin_panel_container {
+    text-align: center;
+}
+
+#admin_panel_header {
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-bottom: 2%;
+
+}
+
+#admin_panel_header a {
+    padding: 22px;
+    background-color: rgb(255, 132, 0);
+    border-radius: 30px;
+    color: black;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s ease;
+}
+
+#admin_panel_header a:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    color: #007BFF;
+}
+
+#admin_panel form {
+    text-align: left;
+}
+
+.admin_menu {
+    justify-content: center;
+    list-style: none;
+    display: flex;
+    margin-bottom: 2%;
+}
+
+.admin_menu li a {
+    padding: 22px 11px;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    transition: all 0.4s ease;
+}
+
+.admin_menu li {
+    padding: 22px 0;
+    background-color: #007BFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s ease;
+}
+
+.admin_menu li:hover {
+    background-color: rgb(255, 255, 0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.admin_menu li:hover a {
+    color: #555;
+}
+
+.admin_menu li:first-child {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.admin_menu li:last-child {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+#main_filters {
+    text-align: center;
+}
+
+.page-counter {
+    margin: 0 25%;
+}
+
+.deposit_edit_price {
+    font-size: 1.3em;
+}
+
+.number_input,
+textarea {
+    font-size: 1em;
+    resize: none;
+    overflow: hidden;
+    padding: 5px;
+    line-height: 1.5em;
+}
+
+.hidden-status {
+    color: red;
+    font-weight: bold;
+}
+
+.visible-status {
+    color: green;
+    font-weight: bold;
+}
+
+.preview-img {
+    width: 512px;
+    height: 512px;
+    display: block;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    object-fit: contain;
+}
+
+/* 📌 Panel edycji ogłoszenia */
+#admin_panel {
+    background: #fff;
+    padding: 20px;
+    max-width: 700px;
+    margin: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.panel-title {
+    text-align: center;
+    color: #333;
+}
+
+/* 📌 Stylizacja formularza */
+
+.edit-announcement-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 📦 Stylizacja pól */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-input,
+.form-textarea,
+.form-file-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+/* 🎨 Podgląd obrazu */
+.preview-img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin-top: 10px;
+    display: block;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 🎨 Przyciski */
+.form-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+/* 🛑 Przycisk usuwania */
+.delete-btn {
+    background-color: #dc3545;
+}
+
+.delete-btn:hover {
+    background-color: #a71d2a;
+}
+
+/* 🔙 Link powrotu */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.contact-form {
+    text-align: center;
+    width: 60%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.contact_button {
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 10px 20px;
+    background-color: rgb(200, 253, 255);
+    transition: all 0.4s ease;
+}
+
+.contact_button:hover {
+    background-color: rgb(0, 247, 255);
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.flashes {
+    list-style: none;
+    padding: 10px;
+}
+
+.success {
+    color: green;
+}
+
+.danger {
+    color: red;
+}
+
+.warning {
+    color: orange;
+}
+
+
+/* Responsywność */
+@media (max-width: 1024px) {
+    .page-counter {
+        margin: 0 20%;
+    }
+
+    #login_form {
+        margin-left: 22.5%;
+    }
+
+    #inner_section {
+        font-size: 1em;
+    }
+
+    .header_container {
+        margin-bottom: 1.5em;
+    }
+
+    .main_header {
+        padding: 1em;
+        margin-left: 8%;
+        font-size: 1em;
+    }
+
+    .category {
+        margin: 0;
+        padding: 1em;
+        font-size: 1em;
+    }
+
+
+    .ad-container {
+        padding: 1em;
+    }
+
+    .ad-image {
+        height: 180px;
+        width: 180px;
+    }
+
+    .ad-center {
+        margin: 0 0.5em auto 0.75em;
+    }
+
+    .rent_info {
+        text-align: justify;
+    }
+
+    .item_name {
+        font-size: 1.4em;
+    }
+
+    .ad-params {
+        font-size: 0.9em;
+    }
+
+    .ad-right {
+        text-align: right;
+        width: 28%;
+    }
+
+    .service_min_hours {
+        margin: 0;
+        font-size: 1.1em;
+    }
+
+    .price_day {
+        font-size: 1.6em;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .hour_to_day {
+        font-size: 1em;
+        color: #555;
+    }
+
+    .deposit {
+        font-size: 1.2em;
+        margin: 5% 0;
+    }
+
+    .transport_price {
+        font-size: 1.2em;
+    }
+
+    .transport_container {
+        margin-top: 5%;
+    }
+
+    .service_min_hours {
+        margin-top: 5%;
+    }
+
+    .desc {
+        margin: 4% 0;
+    }
+
+    .available {
+        font-size: 1.2em;
+    }
+
+    .to_ask {
+        font-size: 1.2em;
+    }
+
+    .no_available {
+        font-size: 1.2em;
+    }
+
+    #available_word {
+        font-size: 1.1em;
+    }
+
+    #filter_form {
+        font-size: 0.8em;
+    }
+
+    .filter_menu {
+        margin-top: 6.5%;
+    }
+
+    .filter_menu label,
+    .filter_menu select,
+    .filter_menu input,
+    .filter_menu button {
+        margin-right: 0;
+    }
+
+    .filter_menu select,
+    .filter_menu input {
+        padding: 3px;
+    }
+
+    .available_container {
+        margin-top: 5%;
+    }
+
+    .price {
+        font-weight: bold;
+        font-size: 1.3em;
+    }
+
+    .avai {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .page-counter {
+        margin: 0 15%;
+        font-size: 0.8em;
+    }
+
+    html {
+        font-size: 36px;
+    }
+
+    header {
+        height: 2.5em;
+    }
+
+    #header_content a {
+        font-size: 1.5em;
+    }
+
+    .nav-menu {
+        margin-top: 2.5em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-menu li {
+        width: 100%;
+    }
+
+    .nav-menu a {
+        padding: 0.4em;
+        width: 100%;
+        font-size: 0.9em;
+        border-radius: 0;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    #main_content {
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+
+    article {
+        margin: 0;
+        border-radius: 0;
+        padding: 1.1em;
+    }
+
+    #inner_article {
+        font-size: 0.8em;
+        padding: 0em;
+        border-radius: 3px;
+    }
+
+    section {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    #inner_section {
+        z-index: 1;
+        padding: 1.1em;
+        height: auto;
+        font-size: 0.8em;
+        border-radius: 3px;
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    #inner_inner_body {
+        padding: 0.5em 0 1em 0;
+    }
+
+    footer {
+        margin: 0;
+    }
+
+    #inner_footer {
+        padding-top: 0.5em;
+    }
+
+    #footer_content {
+        margin: 1% 0%;
+        border-radius: 0;
+        font-size: 0.75em;
+    }
+
+    #copy {
+        font-size: 0.7em;
+    }
+
+    #up {
+        font-size: 1em;
+        height: 2em;
+        right: 4.5%;
+    }
+
+    .header_container {
+        margin-top: 0;
+        text-align: center;
+        margin-bottom: 3%;
+    }
+
+    .main_header {
+        padding: 1em;
+        margin-left: 25%;
+        font-size: 0.7em;
+    }
+
+    .category {
+        margin: 0;
+        padding: 1em;
+        font-size: 0.7em;
+    }
+
+    #mobile_section {
+        opacity: 1;
+        font-size: 0.7em;
+        background-color: red;
+        border-radius: 50px;
+        padding: 1em;
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        transition: box-shadow 0.4s ease;
+        margin-left: 10%;
+    }
+
+    .filter_menu {
+        display: block;
+        position: relative;
+        background: #f9f9f9;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 7%;
+    }
+
+    .filter_menu label {
+        font-size: 0.8em;
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .filter_menu input,
+    .filter_menu select {
+        width: 90%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 0.6em;
+    }
+
+    .filter_menu button {
+        margin: 1% 0;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 0.6em;
+        font-weight: bold;
+        padding: 20px 40px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+    }
+
+    .filter_menu button:hover {
+        background-color: #0056b3;
+    }
+
+    /*ssssssssssssssssssssss*/
+
+    .ad-container {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f9f9f9;
+        padding: 1em;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        margin: 1em auto;
+        font-family: Arial, sans-serif;
+        transition: background-color 0.3s ease;
+        color: black;
+        max-width: 95%;
+    }
+
+    .ad-container:hover {
+        background-color: #e0e0e0;
+    }
+
+    .ad-left {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .ad-image {
+        height: 420px;
+        width: 420px;
+    }
+
+    .ad-center {
+        width: 100%;
+        text-align: center;
+        margin: 4% 0 1% 0;
+    }
+
+    .rent_info {
+        font-weight: bold;
+        text-align: center;
+        font-size: 0.65em;
+        margin-top: 4%;
+    }
+
+    .item_name {
+        text-align: center;
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: rgb(255, 132, 0);
+    }
+
+    .producent {
+        font-size: 0.9em;
+        color: #555;
+        margin-bottom: 6px;
+    }
+
+    .desc {
+        text-align: center;
+        margin: 4% 0;
+        font-size: 0.8em;
+    }
+
+    .ad-params {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.7em;
+    }
+
+    .ad-right {
+        text-align: center;
+        margin-top: 2%;
+        width: 100%;
+    }
+
+    .price {
+        font-size: 1em;
+    }
+
+    .avai {
+        font-size: 0.9em;
+    }
+
+    .price_day {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .price_hour {
+        font-size: 1em;
+        color: #555;
+        margin-bottom: 2%;
+    }
+
+    .hour_to_day {
+        font-size: 0.9em;
+        color: #555;
+    }
+
+    .deposit {
+        font-size: 0.9em;
+        color: #555;
+        margin: 4% 0;
+    }
+
+    .transport {
+        font-size: 0.9em;
+        color: #555;
+    }
+
+    .deposit_price {
+        color: black;
+    }
+
+    #available_word {
+        font-size: 1em;
+    }
+
+    .available {
+        color: green;
+        font-size: 1em;
+    }
+
+    .to_ask {
+        color: rgb(255, 132, 0);
+        font-size: 1em;
+    }
+
+    .no_available {
+        color: red;
+        font-size: 1em;
+    }
+
+    .avialable_container {
+        font-weight: bold;
+        color: #555;
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .strong_red {
+        font-weight: bold;
+        font-size: 1em;
+    }
+
+    .no_items {
+        margin-top: 5%;
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    .price {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    .avai {
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    .service_min {
+        font-size: 1em;
+    }
+
+    .transport_price {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 425px) {
+    .page-counter {
+        margin: 0 3%;
+        font-size: 0.5em;
+    }
+
+    #login_form {
+        margin-left: 5%;
+    }
+
+    html {
+        font-size: 27px;
+    }
+
+    header {
+        height: 2.5em;
+    }
+
+    #header_content a {
+        font-size: 1.5em;
+    }
+
+    .nav-menu {
+        margin-top: 2.5em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-menu li {
+        width: 100%;
+    }
+
+    .nav-menu a {
+        padding: 0.4em;
+        width: 100%;
+        font-size: 0.9em;
+        border-radius: 0;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+
+    #main_content {
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+
+    article {
+        margin: 0;
+        border-radius: 0;
+        padding: 1.1em;
+    }
+
+    #inner_article {
+        font-size: 0.8em;
+        padding: 0em;
+        border-radius: 3px;
+    }
+
+    section {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    #inner_section {
+        z-index: 1;
+        padding: 1.1em;
+        height: auto;
+        font-size: 0.8em;
+        border-radius: 3px;
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    #inner_inner_body {
+        padding: 0.5em 0 1em 0;
+    }
+
+    footer {
+        margin: 0;
+    }
+
+    #inner_footer {
+        padding-top: 0.5em;
+    }
+
+    #footer_content {
+        margin: 1% 0%;
+        border-radius: 0;
+        font-size: 0.75em;
+    }
+
+    #copy {
+        font-size: 0.7em;
+    }
+
+    .ad-container {
+        font-size: 0.5em;
+    }
+
+    .header_container {
+        margin-bottom: 3%;
+        text-align: center;
+    }
+
+    .main_header {
+        margin-left: 25%;
+        padding: 0.6em;
+        font-size: 0.75em;
+    }
+
+    .category {
+        padding: 0.6em;
+        font-size: 0.65m;
+    }
+
+    #mobile_section {
+        font-size: 0.65em;
+        padding: 0.6em;
+    }
+
+    .filter_menu {
+        padding: 10px;
+        margin-top: 8%;
+    }
+
+    .filter_menu label {
+        font-size: 1em;
+    }
+
+    .filter_menu input,
+    .filter_menu select {
+        width: 100%;
+        font-size: 0.8em;
+        padding: 6px;
+    }
+
+    .filter_menu button {
+        font-size: 0.9em;
+        padding: 15px 30px;
+    }
+
+    .ad-container {
+        max-width: 100%;
+        padding: 1.2em;
+    }
+
+    .ad-left {
+        width: 100%;
+    }
+
+    .ad-image {
+        height: 220px;
+        width: 220px;
+    }
+
+    .ad-center {
+        margin: 2% 0 1% 0;
+    }
+
+    .rent_info {
+        font-size: 1.1em;
+    }
+
+    .item_name {
+        font-size: 1.8em;
+    }
+
+    .producent {
+        font-size: 1.5em;
+    }
+
+    .desc {
+        font-size: 1.3em;
+    }
+
+    .ad-params {
+        font-size: 1.2em;
+    }
+
+    .ad-right {
+        width: 100%;
+        margin-top: 3%;
+    }
+
+    .price_day {
+        font-size: 1.8em;
+    }
+
+    .price_hour {
+        font-size: 1.5em;
+    }
+
+    .hour_to_day {
+        font-size: 1.2em;
+    }
+
+    .transport,
+    .deposit {
+        font-size: 1.5em;
+    }
+
+    #available_word {
+        font-size: 1.4em;
+    }
+
+    .to_ask,
+    .available,
+    .no_available {
+        display: block;
+        font-size: 1.6em;
+    }
+
+    .avialable_container {
+        font-size: 1.5em;
+    }
+
+    .strong_red {
+        font-size: 1.2em;
+    }
+
+    .no_items {
+        font-size: 1.5em;
+    }
+
+
+    #login_form {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .login_btn {
+        font-size: 14px;
+    }
+
+    .service_min_hours {
+        font-size: 1.4em;
+    }
+
+    .service_min {
+        font-size: 1.4em;
+    }
+
+    .transport {
+        font-size: 1.4em;
+    }
+
+    .transport_price {
+        font-size: 1.4em;
+    }
+
+    .pagination-buttons {
+        padding-top: 6%;
+    }
+
+    .previous_page_button {
+        padding: 10px;
+        font-size: 0.4em;
+    }
+
+    .next_page_button {
+        padding: 10px;
+        font-size: 0.4em;
+    }
+}
+
+@media (max-width: 320px) {
+    html {
+        font-size: 24px;
+    }
+
+    header {
+        height: 2.5em;
+    }
+
+    #header_content a {
+        font-size: 1.5em;
+    }
+
+    .nav-menu {
+        margin-top: 2.5em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-menu li {
+        width: 100%;
+    }
+
+    .nav-menu a {
+        padding: 0.4em;
+        width: 100%;
+        font-size: 0.9em;
+        border-radius: 0;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+
+    #main_content {
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+
+    article {
+        margin: 0;
+        border-radius: 0;
+        padding: 1.1em;
+    }
+
+    #inner_article {
+        font-size: 0.8em;
+        padding: 0em;
+        border-radius: 3px;
+    }
+
+    section {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    #inner_section {
+        z-index: 1;
+        padding: 1.1em;
+        height: auto;
+        font-size: 0.8em;
+        border-radius: 3px;
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    #inner_inner_body {
+        padding: 0.5em 0 1em 0;
+    }
+
+    footer {
+        margin: 0;
+    }
+
+    #inner_footer {
+        padding-top: 0.5em;
+    }
+
+    #footer_content {
+        margin: 1% 0%;
+        border-radius: 0;
+        font-size: 0.75em;
+    }
+
+    #copy {
+        font-size: 0.7em;
+    }
+
+    .ad-container {
+        font-size: 0.5em;
+    }
+
+    .header_container {
+        text-align: center;
+        margin-bottom: 2em;
+    }
+
+    .main_header {
+        padding: 0.45em;
+        font-size: 0.75em;
+    }
+
+    .category {
+        padding: 0.45em;
+        font-size: 0.7em;
+    }
+
+    #mobile_section {
+        margin: 0;
+        padding: 0.45em;
+        font-size: 0.7em;
+    }
+
+    .pagination-buttons {
+        padding-top: 6%;
+    }
+
+    .page-counter {
+        margin: 0 2%;
+        font-size: 0.5em;
+    }
+
+    .previous_page_button {
+        padding: 8px;
+        font-size: 0.4em;
+    }
+
+    .next_page_button {
+        padding: 8px;
+        font-size: 0.4em;
+    }
+
+    .ad-container {
+        font-size: 0.5em;
+    }
+
+    .header_container {
+        margin-bottom: 3%;
+        text-align: center;
+    }
+
+    .main_header {
+        margin-left: 15%;
+        padding: 0.6em;
+        font-size: 0.75em;
+    }
+
+    .category {
+        padding: 0.6em;
+        font-size: 0.65m;
+    }
+
+    #mobile_section {
+        font-size: 0.65em;
+        padding: 0.6em;
+    }
+
+    .filter_menu {
+        padding: 10px;
+        margin-top: 8%;
+    }
+
+    .filter_menu label {
+        font-size: 1em;
+    }
+
+    .filter_menu input,
+    .filter_menu select {
+        width: 100%;
+        font-size: 0.8em;
+        padding: 6px;
+    }
+
+    .filter_menu button {
+        font-size: 0.7em;
+        padding: 10px 20px;
+    }
+
+    .ad-container {
+        max-width: 100%;
+        padding: 1.2em;
+    }
+
+    .ad-left {
+        width: 100%;
+    }
+
+    .ad-image {
+        height: 220px;
+        width: 220px;
+    }
+
+    .ad-center {
+        margin: 2% 0 1% 0;
+    }
+
+    .rent_info {
+        font-size: 1.3em;
+    }
+
+    .item_name {
+        margin: 2% 0;
+        font-size: 1.6em;
+    }
+
+    .producent {
+        font-size: 1.5em;
+    }
+
+    .desc {
+        font-size: 1.3em;
+    }
+
+    .ad-params {
+        font-size: 1.2em;
+    }
+
+    .ad-right {
+        width: 100%;
+        margin-top: 3%;
+    }
+
+    .price_day {
+        font-size: 2em;
+    }
+
+    .price_hour {
+        font-size: 1.8em;
+    }
+
+    .hour_to_day {
+        font-size: 1.5em;
+    }
+
+    .transport,
+    .deposit {
+        font-size: 2em;
+    }
+
+    #available_word {
+        font-size: 1.6em;
+    }
+
+    .to_ask,
+    .available,
+    .no_available {
+        font-size: 1.8em;
+    }
+
+    .strong_red {
+        font-size: 1em;
+    }
+
+    .no_items {
+        font-size: 1.5em;
+    }
+
+    .service_min_hours {
+        font-size: 1.5em;
+    }
+
+    .service_min {
+        font-size: 1.5em;
+    }
+
+    .transport {
+        font-size: 1.5em;
+    }
+
+    .transport_price {
+        font-size: 1.5em;
+    }
+}
+
+
+/*ZOBA TO MOBILE SECTION PRZYCISK WIĘCEJ oraz kilka zdjęć do ogłoszenia i widok otwartego ogłoszenia*/
